@@ -27,7 +27,8 @@ def mainRunner(inputFileName, initialProbabilities, transitionProbalities, emiss
     mostProbableStatesV = hiddenStatePath(veterbiEncoding[1], seqLength, getLastState(veterbiEncoding[0],seqLength ))
     print "Calculating Most Probable States Posterior Encoding"
     posteriorTableAndRoute = computePosteriorDecoding(forwardTable, backwardsTable, seqLength)
-    
+    print forwardTable[0]
+    print backwardsTable[0]
     posteriorMean = calculatePosteriorMean(posteriorTableAndRoute[0], seqLength, converstionTable)
     mostProbableStatesP = posteriorTableAndRoute[1]
     print "Done"

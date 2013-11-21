@@ -62,6 +62,9 @@ def normalizeCol(singleCol):
     totalSum = 0
     for i in range(len(singleCol)):
         totalSum = totalSum + singleCol[i]
+    if totalSum == 0:
+        print singleCol
+        exit(1)
     for i in range(len(singleCol)):
         singleCol[i] = singleCol[i] / totalSum 
     return singleCol
@@ -69,6 +72,7 @@ def normalizeCol(singleCol):
 def calculatePosteriorMean(postTable, seqLength, converstionTable):
     results = []
     for t in range(seqLength):
+        print t
         currentCol = postTable[t]
         currentCol = normalizeCol(currentCol)
         averagePost = calcualteSinglePostMean(currentCol, converstionTable)
