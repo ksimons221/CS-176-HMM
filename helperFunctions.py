@@ -1,3 +1,24 @@
+def stripAwayNewLines(inputFile):
+    seq1 = False
+    sequence1 = ""
+    sequence2 = ""
+    for line in inputFile:
+        line = line.rstrip('\n')
+        dontAppend = False
+        if line[0] == '>':
+            dontAppend = True
+            if seq1 == False:
+                seq1 = True
+            else:
+                seq1 = False
+        
+        if dontAppend == False:
+            if seq1:           
+                sequence1 = sequence1 + line
+            else:
+                sequence2 = sequence2 + line 
+            
+    return (sequence1, sequence2)
 
 def sameChars(sequences, index):
     char1 = sequences[0][index]
