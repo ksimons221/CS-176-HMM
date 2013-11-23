@@ -41,6 +41,16 @@ def writeToFileWithBreaks(aFile, indexes, encodingTable):
         aFile.write(strToWrite + '\n')
     
 
+
+def writeToFileThreeCol(aFile, indexes, encodingTable):
+    for i in range(len(indexes[0])):
+        tableIndexV = indexes[0][i]
+        tableIndexP = indexes[1][i]
+        meanP = indexes[2][i]
+        strToWrite = str(encodingTable[tableIndexV]) + " " + str(encodingTable[tableIndexP]) + " " + str(meanP)
+        aFile.write(strToWrite + '\n')
+        
+        
 def generateEmissionValue(indexInSequence, stateIndex, sequences, emissionI, emissionD):
    
     sameChar = sameChars(sequences, indexInSequence)
@@ -55,7 +65,7 @@ def generateEmissionValue(indexInSequence, stateIndex, sequences, emissionI, emi
 def calcualteSinglePostMean(col, convTable):
     toReturn = 0
     for i in range(len(col)):
-        toReturn = toReturn + (col[i] + convTable[i]) 
+        toReturn = toReturn + (col[i] * convTable[i]) 
     return toReturn
 
 def normalizeCol(singleCol):
@@ -72,7 +82,6 @@ def normalizeCol(singleCol):
 def calculatePosteriorMean(postTable, seqLength, converstionTable):
     results = []
     for t in range(seqLength):
-        print t
         currentCol = postTable[t]
         currentCol = normalizeCol(currentCol)
         averagePost = calcualteSinglePostMean(currentCol, converstionTable)
