@@ -1,3 +1,5 @@
+import math
+
 def stripAwayNewLines(inputFile):
     seq1 = False
     sequence1 = ""
@@ -78,6 +80,24 @@ def normalizeCol(singleCol):
     for i in range(len(singleCol)):
         singleCol[i] = singleCol[i] / totalSum 
     return singleCol
+
+def logAdd( logX,  logY):
+    if logY > logX:
+        temp = logX
+        logX = logY
+        logY = temp
+       
+    if logX == -float("inf"):
+        return logX;
+    negDiff = logY - logX
+    if negDiff < -20:
+        return logX
+    return logX + math.log(1.0 + math.exp(negDiff));
+
+def sumAllLogProbailities(col):
+    total1 = logAdd(col[0], col[1])
+    total2 = logAdd(col[2], col[3])
+    return logAdd(total1, total2)
         
 def calculatePosteriorMean(postTable, seqLength, converstionTable):
     results = []
@@ -88,11 +108,40 @@ def calculatePosteriorMean(postTable, seqLength, converstionTable):
         results.append(averagePost)
     return results
 
+def normalizeColLog(singleCol):
+    maxInCol  = max(singleCol)
+    for i in range(len(singleCol)):
+        singleCol[i] = singleCol[i] - maxInCol 
+
+    for i in range(len(singleCol)):
+        singleCol[i] = math.exp(singleCol[i]) 
+
+    totalSum = 0
+    for i in range(len(singleCol)):
+        totalSum = totalSum + singleCol[i]
+        
+    if totalSum == 0:
+        print singleCol
+        print "ERROR IN NORMALIZE COL LOG"
+        exit(1)
+    for i in range(len(singleCol)):
+        singleCol[i] = singleCol[i] / totalSum 
+    return singleCol
+
+def calculatePosteriorMeanLog(postTable, seqLength, converstionTable):
+    results = []
+
+
+    for t in range(seqLength):
+        currentCol = postTable[t]
+        currentCol = normalizeColLog(currentCol)
+        averagePost = calcualteSinglePostMean(currentCol, converstionTable)
+        results.append(averagePost)
+    return results
+
 def computePosteriorDecoding(forwardTable, backwardTable, seqLength):
     results = []
-    
     mostProbableState = []
-    
     for t in range(seqLength):
         currentValue = -1
         currentIndex = -1
@@ -108,4 +157,21 @@ def computePosteriorDecoding(forwardTable, backwardTable, seqLength):
     
     return (results, mostProbableState)
 
+def computePosteriorDecodingLog(forwardTable, backwardTable, seqLength):
+    results = []
+    mostProbableState = []
+    for t in range(seqLength):
+        currentValue = -float("inf")
+        currentIndex = -1
+        currentCol = []
+        for i in range(4):
+            value = forwardTable[t][i] + backwardTable[t][i]
+            if value > currentValue:
+                currentValue = value
+                currentIndex = i
+            currentCol.append(value)
+        results.append(currentCol)
+        mostProbableState.append(currentIndex)
+
+    return (results, mostProbableState)
     
