@@ -154,7 +154,6 @@ def computePosteriorDecoding(forwardTable, backwardTable, seqLength):
             currentCol.append(value)
         results.append(currentCol)
         mostProbableState.append(currentIndex)
-    
     return (results, mostProbableState)
 
 def computePosteriorDecodingLog(forwardTable, backwardTable, seqLength):

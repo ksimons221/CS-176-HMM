@@ -5,7 +5,6 @@ def logAdd( logX,  logY):
         temp = logX
         logX = logY
         logY = temp
-       
     if logX == -float("inf"):
         return logX;
     negDiff = logY - logX
@@ -41,7 +40,6 @@ def normalizeColLog(singleCol):
         singleCol[i] = singleCol[i] / totalSum 
     return singleCol
 
-print "hi"
 xPrime = math.log(.2)
 yPrime = math.log(.3)
 

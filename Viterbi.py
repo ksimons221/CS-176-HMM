@@ -30,7 +30,6 @@ def calculateVeterbiEncoding(initialProbabilities, transitionProbalities, emissi
     endLength = len(sequences[0])
     backPointers = {}
     for t in range(1, endLength):
-        #print t
         currentCol = [0,0,0,0]
         for j in range(4):
             singleValue = 0
@@ -58,7 +57,6 @@ def calculateVeterbiEncodingLog(initialProbabilities, transitionProbalities, emi
     backPointers = {}
     for t in range(1, endLength):
         currentCol = [0,0,0,0]
-        #print t
         for j in range(4):
             singleValue = -float("inf")
             emissionValue = generateEmissionValue(t, j, sequences, emissionI, emissionD)
