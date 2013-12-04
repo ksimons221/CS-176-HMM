@@ -78,7 +78,7 @@ def normalizeCol(singleCol):
         print singleCol
         exit(1)
     for i in range(len(singleCol)):
-        singleCol[i] = singleCol[i] / totalSum 
+        singleCol[i] = float(singleCol[i]) / float(totalSum) 
     return singleCol
 
 def logAdd( logX,  logY):

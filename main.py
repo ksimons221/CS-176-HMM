@@ -1,6 +1,7 @@
 from ForwardAlgorithm import calculateForwardAlgoLog, likelihoodOfSequence
 from BackwardsAlgorithm import calculateBackwardsAlgoLog
 from Viterbi import hiddenStatePath, getLastState, calculateVeterbiEncodingLog
+from EM import calculatePosteriorExspected, calculateNewInitialValues
 from helperFunctions import writeToFileWithBreaks, writeToFileWithBreaksStraight, stripAwayNewLines,writeToFileThreeCol, computePosteriorDecodingLog, calculatePosteriorMeanLog   
 
 def mainRunner(inputFileName, initialProbabilities, transitionProbalities, emissionI, emissionD, converstionTable, delim):
@@ -58,5 +59,25 @@ def mainRunner(inputFileName, initialProbabilities, transitionProbalities, emiss
     
     print "Done"
     
+    
+    check = calculatePosteriorExspected(posteriorTableAndRouteLog[0], sequences)  #E
+    
+    print "Initial"
+    print check[0]
+    print "Transition"
+    print check[1]
+    print "Emission"    
+    print check[2]
+    
+    temp = calculateNewInitialValues(check)  #M
+    print "M STEP"
+    print "Initial"
+    print temp[0]
+    print "Transition"
+    print temp[1]
+    print "Emission I "    
+    print temp[2]
+    print "Emission D"    
+    print temp[3]  
     
     

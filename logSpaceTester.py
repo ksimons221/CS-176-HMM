@@ -51,6 +51,5 @@ col = normalizeColLog(col)
 actual = normalizeColLog(actual2)
 
 
-print col
-print actual
-
+for i in range(2,5):
+    print i
