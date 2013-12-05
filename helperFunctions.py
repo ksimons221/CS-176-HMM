@@ -139,7 +139,7 @@ def calculatePosteriorMeanLog(postTable, seqLength, converstionTable):
         results.append(averagePost)
     return results
 
-def computePosteriorDecoding(forwardTable, backwardTable, seqLength):
+def computePosteriorDecoding(forwardTable, backwardTable, seqLength, likelihood):
     results = []
     mostProbableState = []
     for t in range(seqLength):
@@ -147,7 +147,7 @@ def computePosteriorDecoding(forwardTable, backwardTable, seqLength):
         currentIndex = -1
         currentCol = []
         for i in range(4):
-            value = forwardTable[t][i] * backwardTable[t][i]
+            value = (forwardTable[t][i] * backwardTable[t][i]) / likelihood
             if value > currentValue:
                 currentValue = value
                 currentIndex = i
@@ -156,7 +156,7 @@ def computePosteriorDecoding(forwardTable, backwardTable, seqLength):
         mostProbableState.append(currentIndex)
     return (results, mostProbableState)
 
-def computePosteriorDecodingLog(forwardTable, backwardTable, seqLength):
+def computePosteriorDecodingLog(forwardTable, backwardTable, seqLength, likelihood):
     results = []
     mostProbableState = []
     for t in range(seqLength):
@@ -164,7 +164,7 @@ def computePosteriorDecodingLog(forwardTable, backwardTable, seqLength):
         currentIndex = -1
         currentCol = []
         for i in range(4):
-            value = forwardTable[t][i] + backwardTable[t][i]
+            value = forwardTable[t][i] + backwardTable[t][i] - likelihood
             if value > currentValue:
                 currentValue = value
                 currentIndex = i

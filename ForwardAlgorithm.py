@@ -2,10 +2,9 @@ from helperFunctions import generateEmissionValue, sumAllLogProbailities
 import math
 
 def likelihoodOfSequence(forwardTable):
-    probabiltity = 0
     lastIndex = len(forwardTable) - 1
-    for i in range(4):
-        probability = probabiltity + math.exp(forwardTable[lastIndex][i])
+    lastCol = forwardTable[lastIndex]
+    probability = sumAllLogProbailities(lastCol)
     return probability
 
 def calculateFirstProbabilies(initialProbabilities, emissionI, emissionD, sequences):

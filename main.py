@@ -1,7 +1,7 @@
 from ForwardAlgorithm import calculateForwardAlgoLog, likelihoodOfSequence
 from BackwardsAlgorithm import calculateBackwardsAlgoLog
 from Viterbi import hiddenStatePath, getLastState, calculateVeterbiEncodingLog
-from EM import calculatePosteriorExspected, calculateNewInitialValues
+from EM import calculateBigVars, calculateNewInitialValues
 from helperFunctions import writeToFileWithBreaks, writeToFileWithBreaksStraight, stripAwayNewLines,writeToFileThreeCol, computePosteriorDecodingLog, calculatePosteriorMeanLog   
 
 def mainRunner(inputFileName, initialProbabilities, transitionProbalities, emissionI, emissionD, converstionTable, delim):
@@ -19,8 +19,8 @@ def mainRunner(inputFileName, initialProbabilities, transitionProbalities, emiss
     forwardTableLog = calculateForwardAlgoLog(initialProbabilities, transitionProbalities, emissionI, emissionD, sequences )
 
     print "Calculatring Probability of Path"
-    likelihoods = likelihoodOfSequence(forwardTableLog)
-    print likelihoods
+    likelihood = likelihoodOfSequence(forwardTableLog)
+    print likelihood
     print "Calculating Backwards"
     backwardsTableLog = calculateBackwardsAlgoLog(transitionProbalities, emissionI, emissionD, sequences )
     print "Calculating Viterbi Encoding"
@@ -28,7 +28,7 @@ def mainRunner(inputFileName, initialProbabilities, transitionProbalities, emiss
     veterbiStatesLog = hiddenStatePath(veterbiEncodingLog[1], seqLength, getLastState(veterbiEncodingLog[0],seqLength ))
      
     print "Calculating Most Probable States Posterior Encoding"
-    posteriorTableAndRouteLog = computePosteriorDecodingLog(forwardTableLog, backwardsTableLog, seqLength)# tuple pair. Has all post values and most probable
+    posteriorTableAndRouteLog = computePosteriorDecodingLog(forwardTableLog, backwardsTableLog, seqLength, likelihood)# tuple pair. Has all post values and most probable
     posteriorStatesLog = posteriorTableAndRouteLog[1]
     posteriorMeanLog = calculatePosteriorMeanLog(posteriorTableAndRouteLog[0], seqLength, converstionTable)
     
@@ -53,14 +53,14 @@ def mainRunner(inputFileName, initialProbabilities, transitionProbalities, emiss
     outPutFile4.close()
     
     outPutFile5 = open("likelihoods_"+delim + ".txt", 'w')
-    outPutFile5.write(str(likelihoods) + '\n')
+    outPutFile5.write(str(likelihood) + '\n')
     print "Finished Writing Log-likelihoods for " + delim
     outPutFile5.close()
     
     print "Done"
     
     
-    check = calculatePosteriorExspected(posteriorTableAndRouteLog[0], sequences)  #E
+    check = calculateBigVars(posteriorTableAndRouteLog[0], sequences)  #E
     
     print "Initial"
     print check[0]

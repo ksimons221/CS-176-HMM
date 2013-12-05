@@ -1,6 +1,6 @@
 from ForwardAlgorithm import calculateForwardAlgoLog, likelihoodOfSequence
 from BackwardsAlgorithm import calculateBackwardsAlgoLog
-from EM import calculatePosteriorExspected, calculateNewInitialValues
+from EM import calculateBigVars, calculateNewInitialValues
 from helperFunctions import  stripAwayNewLines, computePosteriorDecodingLog   
 
 def mainRunnerEM(inputFileName, initialProbabilities, transitionProbalities, emissionI, emissionD, converstionTable, delim):
@@ -13,17 +13,15 @@ def mainRunnerEM(inputFileName, initialProbabilities, transitionProbalities, emi
     sequences = stripAwayNewLines(inputFile) #tuple pair of each sequence
     seqLength = len(sequences[0])   
     inputFile.close()
-    print "Calculating Forward"
-    forwardTableLog = calculateForwardAlgoLog(initialProbabilities, transitionProbalities, emissionI, emissionD, sequences )
 
-    likelihood = likelihoodOfSequence(forwardTableLog)
+    forwardTable = calculateForwardAlgoLog(initialProbabilities, transitionProbalities, emissionI, emissionD, sequences )
 
-    print "Calculating Backwards"
-    backwardsTableLog = calculateBackwardsAlgoLog(transitionProbalities, emissionI, emissionD, sequences )
+    likelihood = likelihoodOfSequence(forwardTable)
+
+    backwardTable = calculateBackwardsAlgoLog(transitionProbalities, emissionI, emissionD, sequences )
      
-    print "Calculating Most Probable States Posterior Encoding"
-    posteriorTableAndRouteLog = computePosteriorDecodingLog(forwardTableLog, backwardsTableLog, seqLength)# tuple pair. Has all post values and most probable
-    check = calculatePosteriorExspected(posteriorTableAndRouteLog[0], sequences)  #E
-    temp = calculateNewInitialValues(check)  #M
+    posteriorTableAndRouteLog = computePosteriorDecodingLog(forwardTable, backwardTable, seqLength, likelihood)# tuple pair. Has all post values and most probable
+    check = calculateBigVars (posteriorTableAndRouteLog[0], sequences, forwardTable, backwardTable, transitionProbalities, emissionI, emissionD, likelihood) #E
+    temp = calculateNewInitialValues(check)  #M    
     
     return (temp, likelihood) 
