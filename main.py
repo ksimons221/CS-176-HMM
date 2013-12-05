@@ -1,10 +1,9 @@
 from ForwardAlgorithm import calculateForwardAlgoLog, likelihoodOfSequence
 from BackwardsAlgorithm import calculateBackwardsAlgoLog
 from Viterbi import hiddenStatePath, getLastState, calculateVeterbiEncodingLog
-from EM import calculateBigVars, calculateNewInitialValues
 from helperFunctions import writeToFileWithBreaks, writeToFileWithBreaksStraight, stripAwayNewLines,writeToFileThreeCol, computePosteriorDecodingLog, calculatePosteriorMeanLog   
 
-def mainRunner(inputFileName, initialProbabilities, transitionProbalities, emissionI, emissionD, converstionTable, delim):
+def mainRunner(inputFileName, initialProbabilities, transitionProbalities, emissionI, emissionD, converstionTable, delim, initial):
 
     try:
         inputFile = open(inputFileName, 'r')
@@ -31,27 +30,27 @@ def mainRunner(inputFileName, initialProbabilities, transitionProbalities, emiss
     posteriorStatesLog = posteriorTableAndRouteLog[1]
     posteriorMeanLog = calculatePosteriorMeanLog(posteriorTableAndRouteLog[0], seqLength, converstionTable)
     
-    outputFile = open(delim +"/veterbiEncoding_" + delim + ".txt", 'w')
+    outputFile = open(delim +"/"+initial+"_veterbiEncoding_" + delim + ".txt", 'w')
     writeToFileWithBreaks(outputFile, veterbiStatesLog, converstionTable)
     print "Finished Writing Veterb Encoding for " + delim
     outputFile.close()
     
-    outputFile2 = open(delim +"/Posterior_"+ delim + ".txt", 'w')
+    outputFile2 = open(delim +"/"+initial+"_Posterior_"+ delim + ".txt", 'w')
     writeToFileWithBreaks(outputFile2, posteriorStatesLog, converstionTable)
     print "Finished Writing Posterior Encoding for " + delim
     outputFile2.close()
     
-    outputFile3 = open(delim +"/PosteriorMean_"+delim + ".txt", 'w')
+    outputFile3 = open(delim +"/"+initial+"_PosteriorMean_"+delim + ".txt", 'w')
     writeToFileWithBreaksStraight(outputFile3, posteriorMeanLog)
     print "Finished Writing Posterior Mean for " + delim
     outputFile3.close()
     
-    outPutFile4 = open(delim +"/ThreeCol_"+delim + ".txt", 'w')
+    outPutFile4 = open(delim +"/"+initial+"_ThreeCol_"+delim + ".txt", 'w')
     writeToFileThreeCol(outPutFile4, (veterbiStatesLog,posteriorStatesLog, posteriorMeanLog ), converstionTable)
     print "Finished Writing Three Columns for " + delim
     outPutFile4.close()
     
-    outPutFile5 = open(delim +"/likelihoods_"+delim + ".txt", 'w')
+    outPutFile5 = open(delim +"/"+initial+"_likelihoods_"+delim + ".txt", 'w')
     outPutFile5.write(str(likelihood) + '\n')
     print "Finished Writing Log-likelihoods for " + delim
     outPutFile5.close()

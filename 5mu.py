@@ -18,4 +18,4 @@ emissionD =  [0.00195405, 0.00826963, 0.0204217, 0.040837]
 inputFileName = "sequences_5mu.fasta"
 
 
-mainRunner(inputFileName, initialProbabilities, transitionProbalities, emissionI, emissionD, converstionTable, "5mu")
+mainRunner(inputFileName, initialProbabilities, transitionProbalities, emissionI, emissionD, converstionTable, "5mu", "initial_param")
