@@ -1,8 +1,6 @@
 """
 Simple execution file.
 """
-import numpy as np
-import matplotlib.pyplot as plt
 import argparse
 from mainForEM import mainRunnerEM
 from main import mainRunner
@@ -13,12 +11,6 @@ from EM import calculateBigVars, calculateNewInitialValues
 from helperFunctions import computePosteriorDecodingLog, calculatePosteriorMeanLog
 
 conversion_table = [0.3225476896193923, 1.7457611011583467, 4.5366202969211304, 9.40]
-
-# emissions = {
-#     'mu': ([0.999608, 0.998334, 0.995844, 0.991548], [0.000391695, 0.00166636, 0.00415567, 0.008452]),
-#     '2mu': ([0.999217, 0.996674, 0.991725, 0.983241], [0.000782947, 0.00332648, 0.00827535, 0.0167592]),
-#     '5mu': ([0.998046, 0.99173, 0.979578, 0.959163], [0.00195405, 0.00826963, 0.0204217, 0.040837])
-#     }
 
 def read_file(input_file):
     f = open(input_file, 'r')
