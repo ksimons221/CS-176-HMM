@@ -1,5 +1,6 @@
 from mainForEM import mainRunnerEM
 from main import mainRunner
+from run import write_estimated_parameters
 
 initialProbabilities = [0.603154, 0.357419, 0.0388879, 0.000539295]
 
@@ -29,7 +30,6 @@ for i in range(15):
     transitionProbalities = results[1]
     emissionI = results[2]
     emissionD = results[3]
-
     print logProb 
 
 
